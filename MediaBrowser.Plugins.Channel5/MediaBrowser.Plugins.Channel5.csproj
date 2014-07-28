@@ -111,12 +111,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetPath)" "$(SolutionDir)\..\MediaBrowser.Theater\ProgramData\plugins\" /y</PostBuildEvent>
+    <PostBuildEvent>IF EXIST "$(SolutionDir)..\Deploy\MBT-Plugins\plugins\$(TargetFileName)" THEN
+del "$(SolutionDir)..\Deploy\MBT-Plugins\plugins\$(TargetFileName)" /s /q
+xcopy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)..\Deploy\MBT-Plugins\plugins\" /y</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <TargetPlatformVersion>8.0</TargetPlatformVersion>
   </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="$(SolutionDir)\..\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\..\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
